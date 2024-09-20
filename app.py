@@ -17,7 +17,7 @@ mail = Mail(app)
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return render_template('try.html')
 
 @app.route('/subscribe', methods=['POST'])
 def subscribe():
@@ -25,7 +25,7 @@ def subscribe():
     msg = Message('New Subscription', recipients=['noumanusman.uet@gmail.com'])
     msg.body = f'New subscription from: {email}'
     mail.send(msg)
-    return jsonify({'message': 'Subscription successful!'})
+    return jsonify({'message': 'Subscription successful!'}), 200
 
 @app.route('/contact', methods=['POST'])
 def contact():
@@ -35,7 +35,7 @@ def contact():
     msg = Message('New Query', recipients=['noumanusman.uet@gmail.com'])
     msg.body = f'Name: {name}\nEmail: {email}\nMessage: {message}'
     mail.send(msg)
-    return jsonify({'message': 'Message sent successfully!'})
+    return jsonify({'message': 'Message sent successfully!'}), 200
 
 if __name__ == '__main__':
     app.run(debug=True)

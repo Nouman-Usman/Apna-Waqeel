@@ -80,7 +80,8 @@
                     <input type="email" id="subscribe-form-email" name="subscribe-form-email"
                       class="form-control border-dark required email" required placeholder="Enter Your Email Here..">
                     <button id="subscribe-form-submit" name="subscribe-form-submit"
-                      class="btn btn-primary px-4 shadow-none submit-button" type="submit"><span class="d-none d-sm-block">Notify
+                      class="btn btn-primary px-4 shadow-none submit-button" type="submit"><span
+                        class="d-none d-sm-block">Notify
                         Me</span><span class="text-4 d-block d-sm-none"><i
                           class="fas fa-arrow-right"></i></span></button>
                   </div>
@@ -102,17 +103,21 @@
               <!-- Contact Form -->
               <form id="contact-form" class="form-dark" action="{{ url_for('contact') }}" method="post">
                 <div class="mb-3">
-                  <input id="name" name="name" type="text" class="form-control border-2" placeholder="Enter Your Name" required>
+                  <input id="name" name="name" type="text" class="form-control border-2" placeholder="Enter Your Name"
+                    required>
                 </div>
                 <div class="mb-3">
-                  <input id="email" name="email" type="email" class="form-control border-2" placeholder="Enter Your Email" required>
+                  <input id="email" name="email" type="email" class="form-control border-2"
+                    placeholder="Enter Your Email" required>
                 </div>
                 <div class="mb-3">
-                  <textarea id="form-message" name="form-message" class="form-control border-2" rows="2" placeholder="Enter Your Query" required></textarea>
+                  <textarea id="form-message" name="form-message" class="form-control border-2" rows="2"
+                    placeholder="Enter Your Query" required></textarea>
                 </div>
                 <div class="d-grid mt-4">
-                  <button id="submit-btn" class="btn btn-primary" type="submit">Send Message</button>
+                  <button id="submit-btn" class="btn btn-primary" type="button">Send Message</button>
                 </div>
+                <div id="success-message" class="mt-3"></div>
               </form>
             </div>
           </div>
@@ -143,7 +148,7 @@
                 <p class="text-3">We provide top-notch services with a focus on customer satisfaction and innovative
                   solutions.</p>
               </div>
-            </div>
+            </div>  
             <div class="col-lg-4">
               <div class="featured-box text-center">
                 <div class="featured-box-icon text-primary"> <i class="far fa-paper-plane"></i></div>
@@ -278,7 +283,8 @@
     </ul>
     <button class="btn switcher-toggle"><i class="fas fa-cog"></i></button>
   </div>
-  <div class="modal fade" id="contactThankYouModal" tabindex="-1" aria-labelledby="contactThankYouModalLabel" aria-hidden="true">
+  <div class="modal fade" id="contactThankYouModal" tabindex="-1" aria-labelledby="contactThankYouModalLabel"
+    aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
@@ -296,7 +302,7 @@
       </div>
     </div>
   </div>
-  
+
   <!-- Styles Switcher End -->
 
   <!-- Script -->
@@ -309,55 +315,54 @@
   <!-- Style Switcher -->
   <script src="../static/js/9140-js-switcher.min.js"></script>
   <script>
-    document.getElementById('subscribe-form').addEventListener('submit', function(event) {
+    document.getElementById('subscribe-form').addEventListener('submit', function (event) {
       event.preventDefault(); // Prevent the default form submission
-  
+
       const formData = new FormData(this);
       fetch('/subscribe', {
         method: 'POST',
         body: formData
       })
-      .then(response => response.json())
-      .then(data => {
-        if (data.message) {
-          // Clear the email field
-          document.getElementById('subscribe-form-email').value = '';
-  
-          // Display the thank you modal
-          $('#thankYouModal').modal('show');
-        } else {
-          // If email is invalid, show error
-          console.log('Invalid email');
-          alert('Please enter a valid email address');
-        }
-      })
-      .catch(error => console.error('Error:', error));
+        .then(response => response.json())
+        .then(data => {
+          if (data.message) {
+            // Clear the email field
+            document.getElementById('subscribe-form-email').value = '';
+
+            // Display the thank you modal
+            $('#thankYouModal').modal('show');
+          } else {
+            // If email is invalid, show error
+            console.log('Invalid email');
+            alert('Please enter a valid email address');
+          }
+        })
+        .catch(error => console.error('Error:', error));
     });
-  
-    document.getElementById('contact-form').addEventListener('submit', function(event) {
+
+    document.getElementById('contact-form').addEventListener('submit', function (event) {
       event.preventDefault(); // Prevent the default form submission
-  
+
       const formData = new FormData(this);
       fetch('/contact', {
         method: 'POST',
         body: formData
       })
-      .then(response => response.json())
-      .then(data => {
-        if (data.message) {
-          // Clear the input fields
-          document.getElementById('name').value = '';
-          document.getElementById('email').value = '';
-          document.getElementById('form-message').value = '';
-  
-          // Display the thank you message as a popup
-          alert('Your message has been sent successfully. We will get back to you soon.');
-        } else {
-          // If there is an error, show an alert
-          alert('There was an error sending your message. Please try again.');
-        }
-      })
-      .catch(error => console.error('Error:', error));
+        .then(response => response.json())
+        .then(data => {
+          if (data.message) {
+            // Clear the input fields
+            document.getElementById('name').value = '';
+            document.getElementById('email').value = '';
+            document.getElementById('form-message').value = '';
+            // Display the success message
+            document.getElementById('success-message').innerHTML = data.message;
+          } else {
+            // If there is an error, show an alert
+            alert('There was an error sending your message. Please try again.');
+          }
+        })
+        .catch(error => console.error('Error:', error));
     });
   </script>
 </body>
