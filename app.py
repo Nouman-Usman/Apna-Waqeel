@@ -17,7 +17,7 @@ mail = Mail(app)
 
 @app.route('/')
 def index():
-    return render_template('try.html')
+    return render_template('index.html')
 
 @app.route('/subscribe', methods=['POST'])
 def subscribe():
